@@ -7,30 +7,37 @@
     android:orientation="vertical"
     tools:context="com.example.electionmachine.MainPageActivity"
     android:paddingTop="40px">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="QuizUp!"
+        android:text="Добро пожаловать!"
         android:textAlignment="center"
-        android:textSize="100px"/>
+        android:textSize="100px"
+        android:layout_marginBottom="90px"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Количество блоков"/>
-        <EditText
-            android:id="@+id/amount"
-            android:layout_width="86dp"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/button"
-            android:layout_width="146dp"
-            android:layout_height="wrap_content"
-            android:onClick="crb"
-            android:text="Создать блоки" />
-    </LinearLayout>
+        android:text="Проголосовать"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"/>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Создать голосование"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Информация"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"/>
+
 </LinearLayout>

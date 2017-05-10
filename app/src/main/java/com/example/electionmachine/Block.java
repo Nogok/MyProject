@@ -10,14 +10,14 @@ public class Block  {
     // Variables
     private int index = 0; //Index of operation
     private final Date timestamp; //Date and time of operation
-    private String data; // Data in Block
+    private Vote vote;
     private String hash, previousHash;
     private Block previousBlock = null;
 
 
     // Constructor for the FIRST Block
-    public Block(String data){
-        this.data = data;
+    public Block(Vote vote){
+        this.vote = vote;
         this.previousHash = "0";
         index = 1;
         this.hash = hashcode();
@@ -25,8 +25,8 @@ public class Block  {
     }
 
     // Constructor for other Blocks
-    public Block(String data, Block previousBlock){
-        this.data = data;
+    public Block(Vote vote, Block previousBlock){
+        this.vote = vote;
         this.previousHash = previousBlock.hash;
         this.index = previousBlock.index + 1;
         this.hash = hashcode();
@@ -44,7 +44,7 @@ public class Block  {
         } catch (Exception e) {
 
         };
-        String futureHash = data+index+timestamp;
+        String futureHash = vote.toString()+index+timestamp;
         md.update(futureHash.getBytes());
         byte byteData[] = md.digest();
         StringBuffer sb = new StringBuffer();
@@ -61,26 +61,6 @@ public class Block  {
         else return false;
     }
 
-    // TODO Cycle
-    //  Probably useless
-//    public static boolean checkChain(Stack<Block> originChain, Stack<Block> userChain){
-//
-//
-//
-//        Block a = originChain.firstElement();
-//        Block b = userChain.firstElement();
-//        boolean f = false;
-//
-//        if ((a.index == b.index) && (a.hash.equals(b.hash)) &&
-//                (a.previousHash.equals(b.previousHash)) && (a.timestamp.equals(b.timestamp)) && (a.data.equals(b.data)))
-//            f = true;
-//
-//        return f;
-//
-//    }
-
-
-
     public int getIndex() {
         return index;
     }
@@ -89,8 +69,8 @@ public class Block  {
         return timestamp;
     }
 
-    public String getData() {
-        return data;
+    public Vote getVote() {
+        return vote;
     }
 
     public String getHash() {

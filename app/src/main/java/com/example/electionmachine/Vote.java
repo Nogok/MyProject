@@ -8,6 +8,10 @@ public class Vote {
     public Vote(String candidate, String userSignature){
         this.candidate = candidate;
         this.userSignature = userSignature;
+    }
 
+    @Override
+    public String toString() {
+        return "Голос за "+candidate;
     }
 }
