@@ -16,13 +16,7 @@ public class DSA {
         return (signer.sign());
     }
 
-    public static boolean verifySig(byte[] data, PublicKey key, byte[] sig) throws Exception {
-        Signature signer = Signature.getInstance("SHA1withDSA");
-        signer.initVerify(key);
-        signer.update(data);
-        return (signer.verify(sig));
 
-    }
 
     public static KeyPair generateKeyPair(long seed) throws Exception {
         KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance("DSA");
