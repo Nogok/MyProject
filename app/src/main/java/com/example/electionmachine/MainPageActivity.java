@@ -24,4 +24,9 @@ public class MainPageActivity extends AppCompatActivity {
         Intent i = new Intent(this,ElectionActivity.class);
         startActivity(i);
     }
+
+    public void createElection(View view) {
+        Intent i = new Intent(this,InitiativeCreationActivity.class);
+        startActivity(i);
+    }
 }

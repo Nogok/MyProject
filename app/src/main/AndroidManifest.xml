@@ -21,7 +21,8 @@
         <activity android:name=".CheckInActivity" />
         <activity android:name=".MainPageActivity" />
         <activity android:name=".BlocksActivity" />
-        <activity android:name=".ElectionActivity"></activity>
+        <activity android:name=".ElectionActivity" />
+        <activity android:name=".InitiativeCreationActivity"></activity>
     </application>
 
 </manifest>

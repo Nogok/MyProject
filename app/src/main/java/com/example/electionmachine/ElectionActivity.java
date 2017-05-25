@@ -4,15 +4,12 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-
 import retrofit2.Call;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
@@ -25,6 +22,7 @@ public class ElectionActivity extends AppCompatActivity {
     TextView textView;
     Response<Election> response;
     String VoteFromUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +34,9 @@ public class ElectionActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(ElectionService.class);
+
+
+
     }
 
     public void request(View view) {
@@ -58,22 +59,32 @@ public class ElectionActivity extends AppCompatActivity {
         RadioButton r = (RadioButton)findViewById(n);
         VoteFromUser = r.getText().toString();
         new AsyncTaskSendVote().execute("");
+
     }
 
     class AsyncTaskSendVote extends AsyncTask<String, String, String>{
 
         @Override
         protected String doInBackground(String... params) {
-            Call<Vote> call = service.createVote(VoteFromUser,"222");
+            MyDSA dsa = new MyDSA(VoteFromUser);
+            Call<MyDSA> c = service.sendDSA(dsa.y,dsa.getS(),dsa.getR(),dsa.getQ(),dsa.getP(),dsa.getG());
+            Call<Vote> call = service.createVote(VoteFromUser);
+
             try {
                 Response<Vote> r = call.execute();
+                Response<MyDSA> re = c.execute();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
 
+        }
     }
 
 
