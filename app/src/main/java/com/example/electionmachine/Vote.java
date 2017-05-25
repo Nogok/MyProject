@@ -1,15 +1,18 @@
 package com.example.electionmachine;
 
 public class Vote {
-    public final String candidate;
 
-    public Vote(String candidate ){
-        this.candidate = candidate;
+    public Initiative initiative;
+    public int variant;
+    public String publicKey;
+    public String dsaSign;
+
+    public Vote(){
 
     }
-
-    @Override
-    public String toString() {
-        return "Голос за "+candidate;
+    public Vote(Initiative initiative,int variant,String publicKey){
+        this.initiative=initiative;
+        this.variant=variant;
+        this.publicKey=publicKey;
     }
 }

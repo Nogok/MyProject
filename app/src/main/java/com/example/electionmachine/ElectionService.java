@@ -19,18 +19,18 @@ public interface ElectionService {
     @POST("/getinitiatives")
     Call<List<Initiative>> getAllInitives();
 
-    @GET("/addvote/{candidate}")
-    Call<Vote> createVote(@Path("candidate") String candidate);
+    @POST("/addvote")
+    Call<Void> createVote(@Body Vote vote);
     @GET("/election")
     Call<Election> getElection();
 
-    @GET("/publickey/{publickey}/{s}/{r}/{q}/{p}/{g}")
-    Call<MyDSA> sendDSA(@Path("publickey") BigInteger y,
-                        @Path("s") BigInteger s,
-                        @Path("r") BigInteger r,
-                        @Path("q") BigInteger q,
-                        @Path("p") BigInteger p,
-                        @Path("g") BigInteger g);
+//    @GET("/publickey/{publickey}/{s}/{r}/{q}/{p}/{g}")
+//    Call<MyDSA> sendDSA(@Path("publickey") BigInteger y,
+//                        @Path("s") BigInteger s,
+//                        @Path("r") BigInteger r,
+//                        @Path("q") BigInteger q,
+//                        @Path("p") BigInteger p,
+//                        @Path("g") BigInteger g);
 
     @GET("/getBlock")
     Call<Block> getBlock();
