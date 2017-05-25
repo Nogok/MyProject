@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -14,6 +15,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.security.KeyPair;
+import java.util.Arrays;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,10 +52,11 @@ public class ElectionActivity extends AppCompatActivity {
         try {
              ds = new DigitalSign();
              kp = DigitalSign.DSA.generateKeyPair((long) 17);
-
+            Toast.makeText(this, "Pair Created", Toast.LENGTH_SHORT).show();
         }
         catch(Exception e){
-
+            Toast.makeText(this, "Pair is not created!", Toast.LENGTH_SHORT).show();
+            Log.e("KEY_ERROR", e.toString());
         }
 
     }
@@ -79,17 +82,24 @@ public class ElectionActivity extends AppCompatActivity {
         RadioButton r = (RadioButton)findViewById(n);
         VoteFromUser = list.indexOf(r.getText().toString());
         try {
-            byte[] buff=kp.getPublic().getEncoded();
+            Toast.makeText(this, "Try Block created", Toast.LENGTH_SHORT).show();
+            byte[] buff = kp.getPublic().getEncoded();
+            Log.d("Election", "key :"+Arrays.toString(buff));
+            Toast.makeText(this, "Buff created", Toast.LENGTH_SHORT).show();
             vote = new Vote(initiative,VoteFromUser, Base64.encodeToString(buff,Base64.DEFAULT));
             Gson gson = new Gson();
             String s = gson.toJson(vote);
             buff = DigitalSign.DSA.signData(s.getBytes(), kp.getPrivate());
-            vote.dsaSign = Base64.encodeToString(buff,Base64.DEFAULT);
+            Log.d("Election", "sign:"+Arrays.toString(buff));
+            Toast.makeText(this, "Before Base64", Toast.LENGTH_SHORT).show();
+            vote.dsaSign = Base64.encodeToString(buff,Base64.DEFAULT).toString();
+            Toast.makeText(this, "BASE64 is working!", Toast.LENGTH_SHORT).show();
             Call<Void> call = service.createVote(vote);
+            Log.d("Election","vote: "+gson.toJson(vote));
             call.enqueue(new Callback() {
                 @Override
                 public void onResponse(Response response) {
-                    voteResponse = response;
+
                     Toast.makeText(ElectionActivity.this,"DONE!", Toast.LENGTH_SHORT).show();
                 }
 
@@ -97,11 +107,32 @@ public class ElectionActivity extends AppCompatActivity {
                 public void onFailure(Throwable t) {
                     Toast.makeText(ElectionActivity.this,"FAIL!", Toast.LENGTH_SHORT).show();
                 }});
+            Toast.makeText(this, "Try block ended", Toast.LENGTH_SHORT).show();
+
 
         }
         catch (Exception e){
-
+            Toast.makeText(this, "Exception cought!", Toast.LENGTH_SHORT).show();
         }
+
+
+// For test only!! Remove later.
+//        Gson gson = new Gson();
+//        String tmpDsaSign=vote.dsaSign;
+//        byte[] sign=Base64.decode(vote.dsaSign,Base64.DEFAULT);
+//        byte[] pubKey=Base64.decode(vote.publicKey,Base64.DEFAULT);
+//        vote.dsaSign=null;
+//        System.err.println("sign:"+Arrays.toString(sign));
+//        System.err.println("key :"+Arrays.toString(pubKey));
+//        boolean valid = false;
+//        try {
+//            valid = DigitalSign.DSA.verifySig(gson.toJson(vote).getBytes(), DigitalSign.DSA.convertKey(pubKey) , sign);
+//        } catch (Exception e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//
+//        textView.setText(String.valueOf(valid));
     }
 
 

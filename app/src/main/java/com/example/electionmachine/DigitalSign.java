@@ -74,7 +74,7 @@ static class DSA {
 
   public static KeyPair generateKeyPair(long seed) throws Exception {
     KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance("DSA");
-    SecureRandom rng = SecureRandom.getInstance("SHA1PRNG", "SUN");
+    SecureRandom rng = SecureRandom.getInstance("SHA1PRNG");
     rng.setSeed(seed);
     keyGenerator.initialize(1024, rng);
     return (keyGenerator.generateKeyPair());

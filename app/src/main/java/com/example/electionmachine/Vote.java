@@ -2,10 +2,10 @@ package com.example.electionmachine;
 
 public class Vote {
 
-    public Initiative initiative;
-    public int variant;
-    public String publicKey;
     public String dsaSign;
+    public Initiative initiative;
+    public String publicKey;
+    public int variant;
 
     public Vote(){
 
