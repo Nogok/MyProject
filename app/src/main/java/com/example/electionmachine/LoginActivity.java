@@ -12,6 +12,12 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
+    /**
+     * Стандартная реализация логина
+     * с использованием Shared Preferences
+     * TODO Изменить на работу с БД
+     * */
+
     String login, password;
     EditText Login, Password;
     SharedPreferences sp;

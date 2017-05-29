@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BlocksActivity extends AppCompatActivity {
+    //СКОРЕЕ ВСЕГО НЕ ПРИГОДИТСЯ, НО ВОЗМОЖНО И НУЖНО БУДЕТ. ПОКА ОСТАВИТЬ!
     ArrayList<HashMap<String,String>> list;
     String[] from;
     int[] to;

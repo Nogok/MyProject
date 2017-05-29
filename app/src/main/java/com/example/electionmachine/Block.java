@@ -7,16 +7,22 @@ import java.util.Stack;
 
 public class Block  {
 
+    /**
+     * Класс Block
+     * Предназначен для создания заготовки блока перед его генерацией. После нахождения
+     * необходимого nonce отправляется на сервер, где любой может проверить, действительно ли хэш этого блога удовлетворяет
+     * условию blockhash < goal
+     **/
     // Variables
     private int index = 0; //Index of operation
     private final Date timestamp; //Date and time of operation
-    private Vote vote;
+    private Vote vote; // Голоса в блоке (TODO Хэш нескольких голосов)
     private String hash, previousHash;
     private Block previousBlock = null;
-    public long nonce;
+    public long nonce; // добавка для генерации
 
 
-    // Constructor for the FIRST Block
+    // Конструктор первого блока(genesis-block)
     public Block(Vote vote){
         this.vote = vote;
         this.previousHash = "0";
@@ -26,7 +32,7 @@ public class Block  {
         timestamp = new Date();
     }
 
-    // Constructor for other Blocks
+    // Конструктор для остальных блоков
     public Block(Vote vote, Block previousBlock){
         this.vote = vote;
         this.previousHash = previousBlock.hash;
@@ -57,6 +63,7 @@ public class Block  {
         return hash;
     }
 
+    //Проверка блока. TODO Изменить под новые параметры.
     public static boolean blockValidity(Block a, Stack<Block> chain){
         Block b = chain.firstElement();
         if ((a.index == b.index+1) && (a.previousHash.equals(b.hash)) ) return true;

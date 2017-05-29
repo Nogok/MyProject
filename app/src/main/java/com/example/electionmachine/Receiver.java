@@ -9,6 +9,10 @@ import android.content.Intent;
  */
 
 public class Receiver extends BroadcastReceiver {
+
+    /**
+     * Собственно, сам класс Ресивера
+     * */
     @Override
     public void onReceive(Context context, Intent intent) {
         context.startService(new Intent(context,BlockGenerationService.class));

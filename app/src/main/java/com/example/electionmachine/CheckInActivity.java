@@ -9,9 +9,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class CheckInActivity extends AppCompatActivity {
+
+    /**
+     * Стандартная реализация регистрации с использованием SharedPreferences
+     * TODO Переделать под БД
+     * */
     String login, password, ppasword;
     EditText Login, Password, PPasword;
     SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

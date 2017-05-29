@@ -21,6 +21,11 @@ import com.google.gson.Gson;
 
 public class DigitalSign {
 
+    /**
+     * Тут вообще всё жутко, класс создавался для тестирования.
+     * TODO Переделать!
+     * */
+
 //class Initiative{
 //
 //	public String description;

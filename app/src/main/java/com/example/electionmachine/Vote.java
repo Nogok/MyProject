@@ -2,10 +2,14 @@ package com.example.electionmachine;
 
 public class Vote {
 
-    public String dsaSign;
-    public Initiative initiative;
-    public String publicKey;
-    public int variant;
+    /***
+     * Класс-оболочка для данных, необходимых для голосования
+     */
+
+    public String dsaSign; //Dsa подпись
+    public Initiative initiative; //Инициатива, к которой голосование относится
+    public String publicKey; // Публичный ключ для отправки его на сервер
+    public int variant; // Вариант(Кандидат) из инициативы, за которого проголосовали
 
     public Vote(){
 

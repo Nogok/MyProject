@@ -9,8 +9,11 @@ import android.widget.TextView;
 
 public class ConfigActivity extends AppCompatActivity {
 
-    CheckBox checkBoxForBlockGeneration;
-    TextView BlockGenerationStatus;
+    /**
+     * Активность настроек.
+     * */
+    CheckBox checkBoxForBlockGeneration; //Выключение и включение генерации блоков
+    TextView BlockGenerationStatus; //Для отображения статуса генерации блоков (идёт она или нет)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

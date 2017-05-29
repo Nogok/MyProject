@@ -11,25 +11,30 @@ import java.io.IOException;
 
 
 public class MainPageActivity extends AppCompatActivity {
-    private static final String baseUrl = "https://secure-beyond-82089.herokuapp.com";
+    /**
+     * Активность для перехода в другие активности
+     * */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+        startService(new Intent(this,BlockGenerationService.class));
     }
 
-
+    //Открытие активности голосования
     public void openElectionActivity(View view) {
         Intent i = new Intent(this,ElectionActivity.class);
         startActivity(i);
     }
 
+    //Открытие активности создания голосования
     public void createElection(View view) {
         Intent i = new Intent(this,InitiativeCreationActivity.class);
         startActivity(i);
     }
 
+    //Открытие активности настроек приложения
     public void openConfigs(View view) {
         startActivity(new Intent(this,ConfigActivity.class));
     }

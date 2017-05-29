@@ -24,19 +24,23 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class ElectionActivity extends AppCompatActivity {
+    /**
+     * Активность работы с голосованием. Получение с сервера,
+     * создание удобного интерфейся дл пользователя в выборе голоса,
+     * отправка данных. Сейчас всё на кнопках, позже TODO переделать на автоматические запросы.
+     * */
 
-    private static final String baseUrl = "https://secure-beyond-82089.herokuapp.com";
-    ElectionService service;
-    RadioGroup radioGroup;
-    TextView textView;
-    Response<List<Initiative>> response;
-    Response<Vote> voteResponse;
-    int VoteFromUser;
-    List<Initiative> list;
-    DigitalSign ds;
-    KeyPair kp;
-    Initiative initiative;
-    Vote vote;
+    private static final String baseUrl = "https://secure-beyond-82089.herokuapp.com"; // Ссылка на сервер. Пока одна, позже TODO List<String>
+    ElectionService service; //Сервис запросов
+    RadioGroup radioGroup; // Радиокнопки для голосования
+    TextView textView; //Текстовое поле для отслеживания запросов
+    Response<List<Initiative>> response; //Ответ от сервера -- список инициатив
+    int VoteFromUser; //Голос от пользователя, номер варианта ответа
+    List<Initiative> list; //Список инициатив
+    DigitalSign ds; //Класс создания цифровой подписи
+    KeyPair kp; // Пара ключей "Публичный" + "Приватный"
+    Initiative initiative; //Инициатива, с которой идёт работа
+    Vote vote; // Голос, с которым идёт работа
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class ElectionActivity extends AppCompatActivity {
         service = retrofit.create(ElectionService.class);
         try {
              ds = new DigitalSign();
+            //Создание пары
              kp = DigitalSign.DSA.generateKeyPair((long) 17);
             Toast.makeText(this, "Pair Created", Toast.LENGTH_SHORT).show();
         }
@@ -65,7 +70,7 @@ public class ElectionActivity extends AppCompatActivity {
         new MyAsyncTask().execute("");
 
     }
-
+    //Создание инициативы и вывод её на экран
     public void createElection(View view) {
         list = response.body();
         initiative = list.get(list.size()-1);
@@ -76,35 +81,32 @@ public class ElectionActivity extends AppCompatActivity {
         }
 
     }
-
+    // Голосование. Создание голоса, отправка его на сервер
     public void Votation(View view) {
+        //Получение голоса от пользователя
         int n = radioGroup.getCheckedRadioButtonId();
         RadioButton r = (RadioButton)findViewById(n);
         String variant = r.getText().toString();
         for(int i = 0; i < initiative.variants.length; i++){
             if (variant.equals(initiative.variants[i])){
+                //Берём номер голоса
                 VoteFromUser = i+1;
             }
         }
         try {
-            Toast.makeText(this, "Try Block created", Toast.LENGTH_SHORT).show();
+            //Создание подписи
             byte[] buff = kp.getPublic().getEncoded();
-            Log.d("Election", "key :"+Arrays.toString(buff));
-            Toast.makeText(this, "Buff created", Toast.LENGTH_SHORT).show();
             vote = new Vote(initiative,VoteFromUser, Base64.encodeToString(buff,Base64.DEFAULT));
             Gson gson = new Gson();
             String s = gson.toJson(vote);
             buff = DigitalSign.DSA.signData(s.getBytes(), kp.getPrivate());
-            Log.d("Election", "sign:"+Arrays.toString(buff));
-            Toast.makeText(this, "Before Base64", Toast.LENGTH_SHORT).show();
+            //Прикрепление подписи к голосу
             vote.dsaSign = Base64.encodeToString(buff,Base64.DEFAULT).toString();
-            Toast.makeText(this, "BASE64 is working!", Toast.LENGTH_SHORT).show();
             Call<Void> call = service.createVote(vote);
-            Log.d("Election","vote: "+gson.toJson(vote));
+
             call.enqueue(new Callback() {
                 @Override
                 public void onResponse(Response response) {
-
                     Toast.makeText(ElectionActivity.this,"DONE!", Toast.LENGTH_SHORT).show();
                 }
 
@@ -112,8 +114,6 @@ public class ElectionActivity extends AppCompatActivity {
                 public void onFailure(Throwable t) {
                     Toast.makeText(ElectionActivity.this,"FAIL!", Toast.LENGTH_SHORT).show();
                 }});
-            Toast.makeText(this, "Try block ended", Toast.LENGTH_SHORT).show();
-
         }
         catch (Exception e){
             Toast.makeText(this, "Exception cought!", Toast.LENGTH_SHORT).show();
@@ -121,7 +121,7 @@ public class ElectionActivity extends AppCompatActivity {
     }
 
 
-
+    //Асинхронный запрос к серверу. Получение инициативы
      class MyAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... params) {
