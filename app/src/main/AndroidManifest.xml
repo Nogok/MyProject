@@ -18,18 +18,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".LoginActivity" />
         <activity android:name=".CheckInActivity" />
         <activity android:name=".MainPageActivity" />
         <activity android:name=".BlocksActivity" />
         <activity android:name=".ElectionActivity" />
-        <activity android:name=".InitiativeCreationActivity"></activity>
-        <service android:name=".BlockGenerationService" android:label="My Service">
+        <activity android:name=".InitiativeCreationActivity" />
+
+        <service
+            android:name=".BlockGenerationService"
+            android:label="My Service">
             <intent-filter>
                 <action android:name="com.example.electionmachine.BlockGenerationService" />
             </intent-filter>
         </service>
+
         <receiver
             android:name=".Receiver"
             android:enabled="true"
@@ -38,6 +41,8 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".ConfigActivity"></activity>
     </application>
 
 </manifest>

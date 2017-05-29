@@ -29,4 +29,8 @@ public class MainPageActivity extends AppCompatActivity {
         Intent i = new Intent(this,InitiativeCreationActivity.class);
         startActivity(i);
     }
+
+    public void openConfigs(View view) {
+        startActivity(new Intent(this,ConfigActivity.class));
+    }
 }

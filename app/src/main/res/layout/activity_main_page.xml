@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#E3F2FD"
     tools:context="com.example.electionmachine.MainPageActivity"
     android:paddingTop="40px">
 
@@ -40,8 +41,9 @@
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Информация"
+        android:text="Настройки"
         android:layout_marginLeft="30px"
-        android:layout_marginRight="30px"/>
+        android:layout_marginRight="30px"
+        android:onClick="openConfigs"/>
 
 </LinearLayout>

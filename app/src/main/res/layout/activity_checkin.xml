@@ -4,6 +4,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E3F2FD"
 
     android:orientation="vertical"
     tools:context="com.example.electionmachine.CheckInActivity">
