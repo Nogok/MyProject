@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Welcome!");
         signIn = (Button)findViewById(R.id.SignIn);
         checkIn = (Button)findViewById(R.id.CheckIn);
+        startService(new Intent(this,BlockGenerationService.class));
     }
 
     public void LogIn(View view){

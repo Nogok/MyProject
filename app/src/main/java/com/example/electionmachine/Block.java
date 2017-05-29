@@ -13,13 +13,15 @@ public class Block  {
     private Vote vote;
     private String hash, previousHash;
     private Block previousBlock = null;
+    public long nonce;
 
 
     // Constructor for the FIRST Block
     public Block(Vote vote){
         this.vote = vote;
         this.previousHash = "0";
-        index = 1;
+        index = 0;
+        nonce = 0;
         this.hash = hashcode();
         timestamp = new Date();
     }
@@ -44,15 +46,15 @@ public class Block  {
         } catch (Exception e) {
 
         };
-        String futureHash = vote.toString()+index+timestamp;
+        String futureHash = vote.toString()+index+timestamp+nonce;
         md.update(futureHash.getBytes());
         byte byteData[] = md.digest();
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < byteData.length; i++) {
             sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
         }
-
-        return sb.toString();
+        hash = sb.toString();
+        return hash;
     }
 
     public static boolean blockValidity(Block a, Stack<Block> chain){

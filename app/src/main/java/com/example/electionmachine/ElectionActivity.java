@@ -80,7 +80,12 @@ public class ElectionActivity extends AppCompatActivity {
     public void Votation(View view) {
         int n = radioGroup.getCheckedRadioButtonId();
         RadioButton r = (RadioButton)findViewById(n);
-        VoteFromUser = list.indexOf(r.getText().toString());
+        String variant = r.getText().toString();
+        for(int i = 0; i < initiative.variants.length; i++){
+            if (variant.equals(initiative.variants[i])){
+                VoteFromUser = i+1;
+            }
+        }
         try {
             Toast.makeText(this, "Try Block created", Toast.LENGTH_SHORT).show();
             byte[] buff = kp.getPublic().getEncoded();
@@ -109,30 +114,10 @@ public class ElectionActivity extends AppCompatActivity {
                 }});
             Toast.makeText(this, "Try block ended", Toast.LENGTH_SHORT).show();
 
-
         }
         catch (Exception e){
             Toast.makeText(this, "Exception cought!", Toast.LENGTH_SHORT).show();
         }
-
-
-// For test only!! Remove later.
-//        Gson gson = new Gson();
-//        String tmpDsaSign=vote.dsaSign;
-//        byte[] sign=Base64.decode(vote.dsaSign,Base64.DEFAULT);
-//        byte[] pubKey=Base64.decode(vote.publicKey,Base64.DEFAULT);
-//        vote.dsaSign=null;
-//        System.err.println("sign:"+Arrays.toString(sign));
-//        System.err.println("key :"+Arrays.toString(pubKey));
-//        boolean valid = false;
-//        try {
-//            valid = DigitalSign.DSA.verifySig(gson.toJson(vote).getBytes(), DigitalSign.DSA.convertKey(pubKey) , sign);
-//        } catch (Exception e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//
-//        textView.setText(String.valueOf(valid));
     }
 
 

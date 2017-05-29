@@ -3,6 +3,7 @@
     package="com.example.electionmachine">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -17,12 +18,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".LoginActivity" />
         <activity android:name=".CheckInActivity" />
         <activity android:name=".MainPageActivity" />
         <activity android:name=".BlocksActivity" />
         <activity android:name=".ElectionActivity" />
         <activity android:name=".InitiativeCreationActivity"></activity>
+        <service android:name=".BlockGenerationService" android:label="My Service">
+            <intent-filter>
+                <action android:name="com.example.electionmachine.BlockGenerationService" />
+            </intent-filter>
+        </service>
+        <receiver
+            android:name=".Receiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

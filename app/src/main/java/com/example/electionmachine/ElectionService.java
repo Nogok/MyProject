@@ -35,6 +35,6 @@ public interface ElectionService {
     @GET("/getBlock")
     Call<Block> getBlock();
 
-    @GET("/getVote")
-    Call<Vote> getVote();
+    @GET("/getvotes")
+    Call<List<Vote>> getVotes();
 }

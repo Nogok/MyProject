@@ -14,7 +14,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class InitiativeCreationActivity extends AppCompatActivity {
-    private static final String baseUrl = "https://secure-beyond-82089.herokuapp.com";
+    public static final String baseUrl = "https://secure-beyond-82089.herokuapp.com";
     EditText EdDescription, EdVariants;
     Initiative initiative;
     ElectionService service;
