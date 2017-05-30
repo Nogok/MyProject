@@ -34,10 +34,13 @@ public interface ElectionService {
 
     //Получение списка голосов
     @GET("/getvotes")
-    Call<List<Vote>> getVotes();
+    Call<ResponseBody> getVotes();
 
 
     //Получение числа для проверки blockhash < goal
     @GET("/getgoal")
     Call<ResponseBody> getGoal();
+
+    @POST("/addblock")
+    Call<Void> addBlock(@Body Block block);
 }

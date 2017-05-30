@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -28,8 +29,11 @@ public class BlockGenerationService extends Service {
     ElectionService service; //Сервис для запросов на сервер
     private boolean b = true; // Переменная для цикла генерации внутри дополнительного потока
     List<Vote> l = new ArrayList<>(); //Список голосов
-    Call<List<Vote>> call; //Запрос для списка голосов
+    Call<ResponseBody> call; //Запрос для списка голосов
     Call<ResponseBody> callGoal; //Запрос цели
+    Call<Block> blockCall;
+    Block CreatingBlock = new Block();
+    String voteHash = "";
     @Override
     public void onCreate() {
         super.onCreate();
@@ -54,16 +58,23 @@ public class BlockGenerationService extends Service {
                     //Получение списка голосов
                     try {
                         call = service.getVotes();
-                        Response<List<Vote>> response = call.execute();
-                        l = response.body();
+                        Log.e("BROADCAST", "VOTES ARE GOT");
+                        blockCall = service.getBlock();
+                        Log.e("BROADCAST", "Block are got");
+                        Response<Block> blockResponse = blockCall.execute();
+                        Log.e("BROADCAST","Block executed");
+                        voteHash = call.execute().body().string();
+                        Log.e("BROADCAST","VoteHash executed");
+                        CreatingBlock = blockResponse.body();
+
 
                     } catch (IOException e) {
                         e.printStackTrace();
+                        Log.e("BROADCAST", "PROBLEM WITH VOTES");
                     }
-                    //Если какие-то голоса есть, то...
-                    if (!l.isEmpty()) {
-                        Log.e("BROADCAST", "WE HAVE VOTES!!");
-                        Block block = new Block(l.get(l.size()-1));
+                    //Если какие-то голоса есть, то генерируем из них блок
+                    if (!voteHash.equals("")) {
+                        Block block = new Block(voteHash,CreatingBlock);
                         //Цикл генерации самого блока
                         while (block.getHash().compareTo(goal) > 0) {
                             block.hashcode();
@@ -74,9 +85,19 @@ public class BlockGenerationService extends Service {
                                 e.printStackTrace();
                             }
                         }
-                        Log.e("BROADCAST", "BLOCK IS READY!!!");
+                        Call<Void> blockCall = service.addBlock(block);
+                        blockCall.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Response<Void> response) {
+                                Log.e("BROADCAST", "BLOCK IS SENT!!");
+                            }
 
-
+                            @Override
+                            public void onFailure(Throwable t) {
+                                Log.e("BROADCAST", "Something happend");
+                            }
+                        });
+                        Log.e("BROADCAST", "BLOCK IS SENT");
                     }
                     else
                     {
@@ -93,6 +114,8 @@ public class BlockGenerationService extends Service {
                         }
                     }
                 }
+
+
             }
         });
         t.start();
