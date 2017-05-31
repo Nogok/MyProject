@@ -39,4 +39,8 @@ public class MainPageActivity extends AppCompatActivity {
     public void openConfigs(View view) {
         startActivity(new Intent(this,ConfigActivity.class));
     }
+
+    public void openDiagramActivity(View view) {
+        startActivity(new Intent(this,ListofInitiativesActivity.class));
+    }
 }

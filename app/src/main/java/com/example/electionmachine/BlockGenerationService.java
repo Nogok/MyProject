@@ -2,6 +2,7 @@ package com.example.electionmachine;
 
 import android.app.Service;
 import android.content.Intent;
+
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -28,13 +29,14 @@ public class BlockGenerationService extends Service {
     * */
     String goal; // Переменная для условия генерации блока blockhash < goal. Получаем с сервера
     ElectionService service; //Сервис для запросов на сервер
-    private boolean b = true; // Переменная для цикла генерации внутри дополнительного потока
+    private boolean b =true; // Переменная для цикла генерации внутри дополнительного потока
     List<Vote> l = new ArrayList<>(); //Список голосов
-    Call<ResponseBody> call; //Запрос для списка голосов
+    Call<List<Vote>> call; //Запрос для списка голосов
     Call<ResponseBody> callGoal; //Запрос цели
     Call<Block> blockCall;
     Block CreatingBlock = new Block();
-    String voteHash = "";
+    List<Vote> votesNotInBlock = new ArrayList<>();
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -61,10 +63,10 @@ public class BlockGenerationService extends Service {
                     try {
                         call = service.getVotes();
                         blockCall = service.getBlock();
-                        Log.e("BROADCAST", "Block are got");
+
                         Response<Block> blockResponse = blockCall.execute();
-                        Log.e("BROADCAST","Block executed");
-                        voteHash = call.execute().body().string();
+
+                        votesNotInBlock = call.execute().body();
                         Log.e("BROADCAST","VoteHash executed");
                         CreatingBlock = blockResponse.body();
 
@@ -73,10 +75,11 @@ public class BlockGenerationService extends Service {
                         e.printStackTrace();
                         Log.e("BROADCAST", "PROBLEM WITH VOTES");
                     }
+
                     //Если какие-то голоса есть, то генерируем из них блок
-                    if (!voteHash.equals("")) {
+                    if (!votesNotInBlock.isEmpty()) {
                         Log.e("BROADCAST", "WE HAVE VOTES");
-                        Block block = new Block(voteHash,CreatingBlock);
+                        Block block = new Block(votesNotInBlock,CreatingBlock);
                         //Цикл генерации самого блока
                         while (block.getHash().compareTo(goal) > 0) {
                             block.hashcode();

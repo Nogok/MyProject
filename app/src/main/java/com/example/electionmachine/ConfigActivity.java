@@ -12,6 +12,7 @@ public class ConfigActivity extends AppCompatActivity {
     /**
      * Активность настроек.
      * */
+
     CheckBox checkBoxForBlockGeneration; //Выключение и включение генерации блоков
     TextView BlockGenerationStatus; //Для отображения статуса генерации блоков (идёт она или нет)
 

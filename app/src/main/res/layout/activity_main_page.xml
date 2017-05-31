@@ -45,5 +45,10 @@
         android:layout_marginLeft="30px"
         android:layout_marginRight="30px"
         android:onClick="openConfigs"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Диаграмма"
+        android:onClick="openDiagramActivity"/>
 
 </LinearLayout>

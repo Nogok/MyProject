@@ -21,7 +21,6 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".CheckInActivity" />
         <activity android:name=".MainPageActivity" />
-        <activity android:name=".BlocksActivity" />
         <activity android:name=".ElectionActivity" />
         <activity android:name=".InitiativeCreationActivity" />
 
@@ -42,7 +41,13 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ConfigActivity"></activity>
+        <activity android:name=".ConfigActivity" />
+        <activity android:name=".DiagramActivity" />
+        <activity
+            android:name=".ListInitiativesActivity"
+            android:label="@string/title_activity_list_initiatives"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ListofInitiativesActivity" />
     </application>
 
 </manifest>

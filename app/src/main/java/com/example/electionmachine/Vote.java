@@ -10,7 +10,6 @@ public class Vote {
 
     public String dsaSign; //Dsa подпись
     public Initiative initiative; //Инициатива, к которой голосование относится
-    public boolean isTaken = false;
     public String publicKey; // Публичный ключ для отправки его на сервер
     public int variant; // Вариант(Кандидат) из инициативы, за которого проголосовали
 

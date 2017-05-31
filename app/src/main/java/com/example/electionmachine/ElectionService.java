@@ -5,9 +5,11 @@ package com.example.electionmachine;
 import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ElectionService {
 
@@ -34,7 +36,7 @@ public interface ElectionService {
 
     //Получение списка голосов
     @GET("/getvotes")
-    Call<ResponseBody> getVotes();
+    Call<List<Vote>> getVotes();
 
 
     //Получение числа для проверки blockhash < goal
@@ -43,4 +45,12 @@ public interface ElectionService {
 
     @POST("/addblock")
     Call<Void> addBlock(@Body Block block);
+
+    @POST("/getlistofvotes")
+    Call<List<Vote>> getListOfVotes(@Body Initiative initiative);
+
+    @GET("/getinitiativebydescriprion/{description}")
+    Call<Initiative> getInitiativeByDescription(@Path("description") String description);
+
+
 }
