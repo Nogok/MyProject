@@ -19,7 +19,8 @@ public class MainPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
-        startService(new Intent(this,BlockGenerationService.class));
+        Intent i = new Intent(this,BlockGenerationService.class);
+        startService(i);
     }
 
     //Открытие активности голосования

@@ -15,6 +15,7 @@ import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+
 /**
  * Created by Вячеслав on 29.05.2017.
  */
@@ -37,6 +38,7 @@ public class BlockGenerationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.e("BROADCAST", "SERVICE IS STARTED");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(InitiativeCreationActivity.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -58,7 +60,6 @@ public class BlockGenerationService extends Service {
                     //Получение списка голосов
                     try {
                         call = service.getVotes();
-                        Log.e("BROADCAST", "VOTES ARE GOT");
                         blockCall = service.getBlock();
                         Log.e("BROADCAST", "Block are got");
                         Response<Block> blockResponse = blockCall.execute();
@@ -74,6 +75,7 @@ public class BlockGenerationService extends Service {
                     }
                     //Если какие-то голоса есть, то генерируем из них блок
                     if (!voteHash.equals("")) {
+                        Log.e("BROADCAST", "WE HAVE VOTES");
                         Block block = new Block(voteHash,CreatingBlock);
                         //Цикл генерации самого блока
                         while (block.getHash().compareTo(goal) > 0) {
@@ -131,6 +133,7 @@ public class BlockGenerationService extends Service {
     public void onDestroy() {
         super.onDestroy();
         //Останавливаем цикл в дополнительном потоке.
-        b = false;
+       // b = false;
+        Log.e("BROADCAST", "Destroyed");
     }
 }
