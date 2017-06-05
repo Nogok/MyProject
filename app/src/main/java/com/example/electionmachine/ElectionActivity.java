@@ -50,7 +50,7 @@ public class ElectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_election);
-        textView = (TextView) findViewById(R.id.tv);
+        textView = (TextView)findViewById(R.id.textView3);
         radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ElectionActivity.baseUrl)
@@ -59,24 +59,18 @@ public class ElectionActivity extends AppCompatActivity {
         service = retrofit.create(ElectionService.class);
         sharedPreferences = getSharedPreferences("Keys",MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
-    }
-
-    public void request(View view) {
-
-
-    }
-    //Создание инициативы и вывод её на экран
-    public void createElection(View view) {
-
         initiative = gson.fromJson(getIntent().getStringExtra("Initiative"),Initiative.class);
+        textView.setText(initiative.description);
         for(int i = 0; i < initiative.variants.length; i++) {
             RadioButton r = new RadioButton(this);
             r.setText(initiative.variants[i]);
             radioGroup.addView(r);
         }
 
+
     }
+
+
     // Голосование. Создание голоса, отправка его на сервер
     public void Votation(View view) {
         if (!(sharedPreferences.contains("Private_key") || sharedPreferences.contains("Public_key"))) {

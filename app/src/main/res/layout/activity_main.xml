@@ -12,12 +12,22 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Добро пожаловать!"
+        android:text="Election Machine"
         android:textSize="60px"
         android:textAlignment="center"
         android:textColor="#01181e"
         android:layout_marginBottom="3px"
-        />
+        android:layout_weight="0.06" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.85"
+        android:text="Добро пожаловать, пользователь! Это приложение создано для того, чтобы ты мог быть уверенным в том, что твой голос останется неизменным, и все голоса будут подсчитаны верно. Скорее, нажимай на кнопку ниже и голосуй!"
+        android:textAlignment="center"
+        android:textColor="#01181e"
+        android:textSize="24dp" />
 
     <Button
         android:layout_width="match_parent"
@@ -25,14 +35,6 @@
         android:text="Войти"
         android:id="@+id/SignIn"
         android:onClick="LogIn"
-        android:layout_margin="3px"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Регистрация"
-        android:id="@+id/CheckIn"
-        android:onClick="CheckIn"
         android:layout_margin="3px"/>
 
 </LinearLayout>

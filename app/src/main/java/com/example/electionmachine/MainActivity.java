@@ -19,9 +19,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Welcome!");
+
         signIn = (Button)findViewById(R.id.SignIn);
-        checkIn = (Button)findViewById(R.id.CheckIn);
+
 
     }
 

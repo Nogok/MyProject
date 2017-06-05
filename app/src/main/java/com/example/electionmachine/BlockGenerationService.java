@@ -2,7 +2,6 @@ package com.example.electionmachine;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -100,6 +99,11 @@ public class BlockGenerationService extends Service {
                                 Log.e("BROADCAST", "Something happened");
                             }
                         });
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         Log.e("BROADCAST", "BLOCK IS SENT");
                     }
                     else

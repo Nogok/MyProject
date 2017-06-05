@@ -1,27 +1,16 @@
 package com.example.electionmachine;
 
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.ArraySet;
 import android.util.Log;
-
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
@@ -89,11 +78,11 @@ public class DiagramActivity extends AppCompatActivity {
                 }
                 Log.e("ENTRIES",""+entries.size());
                 Log.e("LABLES",""+label.size());
-                PieDataSet dataset = new PieDataSet(entries, "# of Calls");
+                PieDataSet dataset = new PieDataSet(entries, "Votes");
                 PieData data = new PieData(label, dataset);
                 dataset.setColors(ColorTemplate.COLORFUL_COLORS);
                 pieChart.setData(data);
-                pieChart.setDescription("Description");
+                pieChart.setDescription(initiative.description);
 
             }
 

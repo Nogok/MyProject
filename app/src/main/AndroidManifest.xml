@@ -11,16 +11,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainPageActivity" />
-        <activity android:name=".ElectionActivity" />
-        <activity android:name=".InitiativeCreationActivity" />
+        <activity android:name=".MainPageActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ElectionActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".InitiativeCreationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <service
             android:name=".BlockGenerationService"
@@ -39,8 +44,10 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ConfigActivity" />
-        <activity android:name=".DiagramActivity" />
+        <activity android:name=".ConfigActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".DiagramActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ListofInitiativesActivity"
             android:label="@string/title_activity_list_initiatives"

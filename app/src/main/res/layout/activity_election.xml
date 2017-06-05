@@ -8,21 +8,14 @@
     android:background="#E3F2FD"
     tools:context="com.example.electionmachine.ElectionActivity">
 
-    <Button
-        android:layout_width="770px"
-        android:layout_height="100px"
-        android:onClick="request"
-        android:text="Получить голосование" />
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ждём данные..."
-        android:id="@+id/tv"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cформировать голосование"
-        android:onClick="createElection"/>
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textColor="#111111"
+        android:textAlignment="center"/>
 
     <RadioGroup
         android:layout_width="match_parent"
@@ -36,13 +29,6 @@
         android:onClick="Votation"
         android:text="Проголосовать"
         />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/linlay">
-    </LinearLayout>
-
 
 
 </LinearLayout>

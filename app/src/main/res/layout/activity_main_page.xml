@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Добро пожаловать!"
+        android:text="Голосуй!"
         android:textAlignment="center"
         android:textSize="100px"
         android:layout_marginBottom="90px"/>
@@ -46,9 +45,12 @@
         android:layout_marginRight="30px"
         android:onClick="openConfigs"/>
     <Button
+        android:id="@+id/button5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Диаграмма"
-        android:onClick="openDiagramActivity"/>
+        android:onClick="openDiagramActivity"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        android:text="Статистика" />
 
 </LinearLayout>
