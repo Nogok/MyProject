@@ -4,8 +4,17 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,7 +28,7 @@ public class InitiativeCreationActivity extends AppCompatActivity {
      * Активность создания инициативы
      * Интерфейс для пользователя
      * */
-    public static final String baseUrl = "https://secure-beyond-82089.herokuapp.com";
+    public static final String baseUrl = "https://cryptic-everglades-30040.herokuapp.com";
     EditText EdDescription, EdVariants; //Эдиттексты для Описания и вариантов. TODO Варианты добавлять по-другому, вдруг людям в названии пригодятся пробелы
     Initiative initiative; // Будущая инициатива
     ElectionService service; // Сервис запросов к серверу
@@ -37,7 +46,7 @@ public class InitiativeCreationActivity extends AppCompatActivity {
         service = retrofit.create(ElectionService.class);
     }
 
-
+    //Отправка инициативы на сервер
     public void sendInitiative(View view) {
         String description = EdDescription.getText().toString();
         String[] variants = EdVariants.getText().toString().trim().split("\\s+");

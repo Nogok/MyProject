@@ -16,29 +16,14 @@
         android:textAlignment="center"
         android:textColor="@android:color/black"/>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/buttonForService"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:text="Button"
+        android:onClick="changeBlockGenerationStatus"/>
 
-        <TextView
-            android:layout_width="251dp"
-            android:layout_height="wrap_content"
-            android:text="Выключить генерацию блока"
-            android:textSize="20dp"
-            android:layout_weight="1.03"
-            android:textColor="@android:color/black"/>
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="62dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/fab_margin"
-
-            android:onClick="changeBlockGenerationStatus" />
-
-    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

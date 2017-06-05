@@ -18,8 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".CheckInActivity" />
         <activity android:name=".MainPageActivity" />
         <activity android:name=".ElectionActivity" />
         <activity android:name=".InitiativeCreationActivity" />
@@ -44,10 +42,10 @@
         <activity android:name=".ConfigActivity" />
         <activity android:name=".DiagramActivity" />
         <activity
-            android:name=".ListInitiativesActivity"
+            android:name=".ListofInitiativesActivity"
             android:label="@string/title_activity_list_initiatives"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ListofInitiativesActivity" />
+        <!--activity android:name=".ListofInitiativesActivity" /-->
     </application>
 
 </manifest>

@@ -25,7 +25,9 @@ public class MainPageActivity extends AppCompatActivity {
 
     //Открытие активности голосования
     public void openElectionActivity(View view) {
-        Intent i = new Intent(this,ElectionActivity.class);
+        Intent i = new Intent(this,ListofInitiativesActivity.class);
+        //Отправка переменной в активность для определения того, какая активность будет следующей
+        i.putExtra("Activity", "Elect");
         startActivity(i);
     }
 
@@ -40,7 +42,11 @@ public class MainPageActivity extends AppCompatActivity {
         startActivity(new Intent(this,ConfigActivity.class));
     }
 
+    //Открытие активности статистики
     public void openDiagramActivity(View view) {
-        startActivity(new Intent(this,ListofInitiativesActivity.class));
+        Intent i = new Intent(this,ListofInitiativesActivity.class);
+        //Отправка переменной в активность для определения того, какая активность будет следующей
+        i.putExtra("Activity", "Diagram");
+        startActivity(i);
     }
 }

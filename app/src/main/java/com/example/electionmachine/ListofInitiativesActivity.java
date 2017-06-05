@@ -1,7 +1,6 @@
 package com.example.electionmachine;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,51 +24,66 @@ import retrofit2.Retrofit;
 public class ListofInitiativesActivity extends AppCompatActivity {
 
     ElectionService service;
-    String[] descriptionsOfinitiatives;
-    Response<List<Initiative>> listResponse;
-    Call<List<Initiative>> listCall;
-    List<Initiative> initiatives = new ArrayList<>();
-    Initiative initiativeForDiagram;
-    Intent i;
-
+    String[] descriptionsOfInitiatives; // массив описания инициатив
+    Call<List<Initiative>> listCall; // Запрос на получение инициатив
+    List<Initiative> initiatives = new ArrayList<>(); //масств инициатив
+    Initiative initiativeForDiagram; // Инициатива для передачи в интент
+    Intent i; // Интент для перехода на новую активность
+    String activity; // Название активности, куда будет отправлять интент
+    ListView listView; //Список голосов (интерфейс)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        i = new Intent(this,DiagramActivity.class);
+        activity = getIntent().getStringExtra("Activity");
+        // Настройка интента
+        if (activity.equals("Diagram")) {
+            i = new Intent(this, DiagramActivity.class);
+        }
+        else if (activity.equals("Elect")){
+            i = new Intent(this,ElectionActivity.class);
+        }
         setContentView(R.layout.activity_listof_initiatives);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(InitiativeCreationActivity.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(ElectionService.class);
+        listView = (ListView)findViewById(R.id.listOfInitiative);
+        // Запрос на получение инициатив
         listCall = service.getAllInitives();
         listCall.enqueue(new Callback<List<Initiative>>() {
             @Override
             public void onResponse(Response<List<Initiative>> response) {
+                // Получили инициативы
                 initiatives = response.body();
                 Log.e("INITIATIVES", initiatives.size()+"");
-                descriptionsOfinitiatives = new String[initiatives.size()];
+                descriptionsOfInitiatives = new String[initiatives.size()];
+                // Заполнение массива описаний
                 for (int i = 0; i < initiatives.size(); i++){
-                    descriptionsOfinitiatives[i] = initiatives.get(i).description;
+                    descriptionsOfInitiatives[i] = initiatives.get(i).description;
                 }
-                ListView listView = (ListView)findViewById(R.id.listOfInitiative);
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(ListofInitiativesActivity.this,android.R.layout.simple_list_item_1,descriptionsOfinitiatives);
+                // Создание адаптера для элемента списка
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(ListofInitiativesActivity.this,android.R.layout.simple_list_item_1, descriptionsOfInitiatives);
                 listView.setAdapter(arrayAdapter);
+                // Обработка нажатия на элемент списка
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String result = ((TextView) view).getText().toString();
-                        for (int i = 0; i < initiatives.size();i++){
-                            if (initiatives.get(i).description.equals(result)){
-                                initiativeForDiagram = initiatives.get(i);
-                                break;
+                            //Получение инициативы для отправки
+                            String result = ((TextView) view).getText().toString();
+                            for (int i = 0; i < initiatives.size(); i++) {
+                                if (initiatives.get(i).description.equals(result)) {
+                                    initiativeForDiagram = initiatives.get(i);
+                                    break;
+                                }
                             }
+                            // Присваивание в интент строки инициативы
+                            Gson gson = new Gson();
+                            String initiativeJSON = gson.toJson(initiativeForDiagram);
+                            i.putExtra("Initiative", initiativeJSON);
+                            startActivity(i);
                         }
-                        Gson gson = new Gson();
-                        String initiativeJSON = gson.toJson(initiativeForDiagram);
-                        i.putExtra("Initiative", initiativeJSON);
-                        startActivity(i);
-                    }
+
                 });
             }
 

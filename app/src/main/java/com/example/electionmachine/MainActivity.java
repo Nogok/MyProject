@@ -26,12 +26,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void LogIn(View view){
-        Intent i = new Intent(this,LoginActivity.class);
+        Intent i = new Intent(this,MainPageActivity.class);
         startActivity(i);
     }
-    public void CheckIn(View view){
-        Intent i = new Intent(this,CheckInActivity.class);
-        startActivity(i);
-    }
+
 
 }

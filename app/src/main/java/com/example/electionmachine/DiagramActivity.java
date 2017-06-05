@@ -30,42 +30,52 @@ import retrofit2.Retrofit;
 
 public class DiagramActivity extends AppCompatActivity {
 
-    ElectionService service;
-    Call<List<Vote>> call;
-    List<Vote> voteList = new ArrayList<>();
+    /**
+     * Активность создания диаграммы для отображения статистики
+     * голосов за определённую инициативу.
+     * В данный момент создаётся только круговая диаграмма
+     * TODO добавить возможность создания столбчатой диаграммы
+     * */
 
-    String initiativeJSON;
-    Initiative initiative;
+    ElectionService service; // Сервис для запросов к серверу
+    Call<List<Vote>> call;
+    List<Vote> voteList = new ArrayList<>(); //Список голосов для вычисления статистики
+    String initiativeJSON; //JSON строка инициативы из активности со списком
+    Initiative initiative; //Инициатива, по которой получаем голоса
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagram);
+        // Создание объекта retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(InitiativeCreationActivity.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(ElectionService.class);
+        //Получение инициативы из прошлой активности
         initiativeJSON = getIntent().getStringExtra("Initiative");
         Gson gson = new Gson();
         initiative = gson.fromJson(initiativeJSON,Initiative.class);
-        Log.e("INITIATIVE", initiativeJSON);
+        //Запрос на получение всех голосов за эту инициативу
         call = service.getListOfVotes(initiative);
         call.enqueue(new Callback<List<Vote>>() {
             @Override
             public void onResponse(Response<List<Vote>> response) {
+                //Получение списка голосов за инициативу
                 voteList = response.body();
                 Log.e("VOTELIST", voteList.size()+"");
                 int[] variants = new int[voteList.size()];
                 for(int i = 0; i < voteList.size(); i++){
                     variants[i] = voteList.get(i).variant;
                 }
+                // Получение вариантов голосования (Из инициативы не так интересно :) )
                 ArrayList<Integer> notRepeatedVariants = new ArrayList<>();
                 for(int i = 0; i < variants.length; i++){
                     if(!notRepeatedVariants.contains(variants[i]))
                         notRepeatedVariants.add(variants[i]);
                 }
-
+                //Создание диаграммы
                 PieChart pieChart = (PieChart) findViewById(R.id.chart);
                 ArrayList<Entry> entries = new ArrayList<>();
                 ArrayList<String> label = new ArrayList<>();

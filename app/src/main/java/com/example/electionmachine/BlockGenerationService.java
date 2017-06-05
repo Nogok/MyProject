@@ -2,24 +2,18 @@ package com.example.electionmachine;
 
 import android.app.Service;
 import android.content.Intent;
-
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
-
-/**
- * Created by Вячеслав on 29.05.2017.
- */
 
 public class BlockGenerationService extends Service {
 
@@ -29,13 +23,14 @@ public class BlockGenerationService extends Service {
     * */
     String goal; // Переменная для условия генерации блока blockhash < goal. Получаем с сервера
     ElectionService service; //Сервис для запросов на сервер
-    private boolean b =true; // Переменная для цикла генерации внутри дополнительного потока
-    List<Vote> l = new ArrayList<>(); //Список голосов
-    Call<List<Vote>> call; //Запрос для списка голосов
+    private boolean doItWhile = true; // Переменная для цикла генерации внутри дополнительного потока
+    Call<ArrayList<Vote>> call; //Запрос для списка голосов
     Call<ResponseBody> callGoal; //Запрос цели
     Call<Block> blockCall;
     Block CreatingBlock = new Block();
-    List<Vote> votesNotInBlock = new ArrayList<>();
+    ArrayList<Vote> votesNotInBlock = new ArrayList<>();
+
+
 
     @Override
     public void onCreate() {
@@ -51,21 +46,24 @@ public class BlockGenerationService extends Service {
             public void run() {
                 //Получаем цель
                 try {
+                    Log.e("BROADCAST", "TRY1 is started");
                     callGoal = service.getGoal();
+                    Log.e("BROADCAST", "callGoal is done");
                     goal = callGoal.execute().body().string();
+                    Log.e("Goal: ", goal);
                 }
                 catch (Exception e){
                     e.printStackTrace();
                 }
                 //Цикл сбора данных для генерации
-                while(b) {
+                while(doItWhile) {
                     //Получение списка голосов
                     try {
                         call = service.getVotes();
+                        Log.e("List of votes ", "is got");
                         blockCall = service.getBlock();
-
+                        Log.e("BROADCAST","WE GoT BLOCK");
                         Response<Block> blockResponse = blockCall.execute();
-
                         votesNotInBlock = call.execute().body();
                         Log.e("BROADCAST","VoteHash executed");
                         CreatingBlock = blockResponse.body();
@@ -99,7 +97,7 @@ public class BlockGenerationService extends Service {
 
                             @Override
                             public void onFailure(Throwable t) {
-                                Log.e("BROADCAST", "Something happend");
+                                Log.e("BROADCAST", "Something happened");
                             }
                         });
                         Log.e("BROADCAST", "BLOCK IS SENT");
@@ -136,7 +134,7 @@ public class BlockGenerationService extends Service {
     public void onDestroy() {
         super.onDestroy();
         //Останавливаем цикл в дополнительном потоке.
-       // b = false;
+        doItWhile = false;
         Log.e("BROADCAST", "Destroyed");
     }
 }

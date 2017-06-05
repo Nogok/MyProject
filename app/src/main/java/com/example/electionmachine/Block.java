@@ -1,10 +1,8 @@
 package com.example.electionmachine;
 
 import java.security.MessageDigest;
+import java.util.ArrayList;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Stack;
 
 public class Block  {
     /**
@@ -14,42 +12,39 @@ public class Block  {
      * условию blockhash < goal
      **/
     // Variables
+    private String hash;
     private int index = 0; //Index of operation
-    private final Date timestamp; //Date and time of operation
-    private String voteHash = ""; // Голоса в блоке
-    public List<Vote> votes;
-    private String hash, previousHash;
-    private Block previousBlock = null;
     public long nonce = 0; // добавка для генерации
-
+    private Block previousBlock = null;
+    private String previousHash;
+    private  long timestamp; //Date and time of operation
+    private String voteHash = ""; // Голоса в блоке
+    public ArrayList<Vote> votes;
 
     public Block(){
-        timestamp = new Date();
-        voteHash = "0";
+
     }
 
     // Конструктор для остальных блоков
-    public Block(List<Vote> votes, Block previousBlock){
+    public Block(ArrayList<Vote> votes, Block previousBlock){
         this.votes = votes;
         this.previousHash = previousBlock.hash;
         this.index = previousBlock.index + 1;
         this.hash = hashcode();
-        timestamp = new Date();
+        timestamp = System.currentTimeMillis();
         this.previousBlock = previousBlock;
         for (int i = 0; i < votes.size(); i++){
             voteHash += votes.get(i).hashcode();
         }
-
     }
 
     // hash function
     public String hashcode(){
-
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("SHA-256");
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         String futureHash = voteHash+index+timestamp+nonce;
         md.update(futureHash.getBytes());
@@ -66,11 +61,9 @@ public class Block  {
     public int getIndex() {
         return index;
     }
-
     public String getHash() {
         return hash;
     }
-
     public String getPreviousHash() {
         return previousHash;
     }
