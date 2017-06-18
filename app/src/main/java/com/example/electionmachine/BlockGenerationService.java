@@ -76,7 +76,7 @@ public class BlockGenerationService extends Service {
                     //Если какие-то голоса есть, то генерируем из них блок
                     if (!votesNotInBlock.isEmpty()) {
                         Log.e("BROADCAST", "WE HAVE VOTES");
-                        Block block = new Block(votesNotInBlock,CreatingBlock);
+                        Block block = new Block(votesNotInBlock,CreatingBlock,goal);
                         //Цикл генерации самого блока
                         while (block.getHash().compareTo(goal) > 0) {
                             block.hashcode();
