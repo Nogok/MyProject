@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E3F2FD">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:fillViewport="true"
+    >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E3F2FD"
+
     tools:context="com.example.electionmachine.InitiativeCreationActivity"
     android:weightSum="1"
     android:id="@+id/mainLayout">
@@ -25,53 +34,46 @@
         android:layout_height="wrap_content"
         android:text="Введите описание голосования"
         android:textSize="24sp"
-        android:textColor="#111111"/>
+        android:textColor="#111111"
+        android:textAlignment="center"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/InDescription"
         android:inputType="text"/>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Введите варианты через пробел"
-        android:textSize="24sp"/>
-    <EditText
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="196dp"
+            android:layout_height="wrap_content"
+            android:text="Количество кандидатов"
+            android:textColor="#000000" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="157dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutForCandidates"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/InVariants"/>
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:weightSum="1">-->
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!--<TextView-->
-            <!--android:layout_width="198dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_weight="1.11"-->
-            <!--android:text="Выберите количество вариантов"-->
-            <!--android:textColor="#111111"-->
-            <!--android:textSize="18dp" />-->
-
-        <!--<Spinner-->
-            <!--android:id="@+id/spinner"-->
-            <!--android:layout_width="81dp"-->
-            <!--android:layout_height="wrap_content" />-->
-
-    <!--</LinearLayout>-->
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/layoutForVariants"-->
-        <!--android:orientation="vertical"></LinearLayout>-->
-
+    </LinearLayout>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Отправить инициативу"
-        android:onClick="sendInitiative"/>
+        android:onClick="sendInitiative"
+        android:text="Отправить инициативу" />
+
 </LinearLayout>
+</ScrollView>
+</RelativeLayout>

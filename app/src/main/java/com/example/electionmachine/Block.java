@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 
 
-public class Block  {
+class Block  {
     /**
      * Класс Block
      * Предназначен для создания заготовки блока перед его генерацией. После нахождения
@@ -15,24 +15,24 @@ public class Block  {
     private String hash;
     private int index = 0; //Index of operation
     public long nonce = 0; // добавка для генерации
-    private Block previousBlock = null;
     private String previousHash;
     private  long timestamp; //Date and time of operation
     private String voteHash = ""; // Голоса в блоке
     public ArrayList<Vote> votes;
+    public String goal;
 
     public Block(){
 
     }
 
     // Конструктор для остальных блоков
-    public Block(ArrayList<Vote> votes, Block previousBlock){
+    public Block(ArrayList<Vote> votes, Block previousBlock,String goal){
         this.votes = votes;
         this.previousHash = previousBlock.hash;
         this.index = previousBlock.index + 1;
         this.hash = hashcode();
+        this.goal = goal;
         timestamp = System.currentTimeMillis();
-        this.previousBlock = previousBlock;
         for (int i = 0; i < votes.size(); i++){
             voteHash += votes.get(i).hashcode();
         }
@@ -46,7 +46,7 @@ public class Block  {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String futureHash = voteHash+index+timestamp+nonce;
+        String futureHash = voteHash+index+timestamp+nonce+previousHash+goal;
         md.update(futureHash.getBytes());
         byte byteData[] = md.digest();
         StringBuffer sb = new StringBuffer();
@@ -67,8 +67,6 @@ public class Block  {
     public String getPreviousHash() {
         return previousHash;
     }
-    public Block getPreviousBlock() {
-        return previousBlock;
-    }
+
 
 }
