@@ -4,13 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.electionmachine.DiagramActivity">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart"
-        android:layout_width="368dp"
-        android:layout_height="495dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Круговая\n диаграмма"
+            android:layout_weight="1"
+            android:onClick="createCircle"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Столбчатая\n диаграмма"
+            android:layout_weight="1"
+            android:onClick="createRows"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layoutForDiagram"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
 
 </LinearLayout>
