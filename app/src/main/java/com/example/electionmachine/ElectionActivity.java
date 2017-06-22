@@ -102,22 +102,27 @@ public class ElectionActivity extends AppCompatActivity {
             //Создание подписи
 
             vote = new Vote(initiative,VoteFromUser, sharedPreferences.getString("Public_key", null));
+            Log.e("PUBLIC KEY",sharedPreferences.getString("Public_key", null) );
             Gson gson = new Gson();
             String s = gson.toJson(vote);
             Log.e("Vote", s);
             String sp = sharedPreferences.getString("Private_key", null);
+            //Всё норм
             Log.e("Private key is ", sp);
             byte[] priv=Base64.decode(sp,Base64.DEFAULT);
-            Log.e("PrivateKey: ", "is got");
+            //Всё норм
+            Log.e("PrivateKey: ", Arrays.toString(priv));
             PrivateKey privkey =  DigitalSign.convertPrivateKey(priv);
             Log.e("PrivateKey: ", "is converted");
+            Log.e("Data to sign: ", Arrays.toString(s.getBytes()));
             byte[] buff = DigitalSign.signData(s.getBytes(), privkey);
+            //УЖЕ НЕ НОРМАЛЬНО
+            Log.e("Buff", Arrays.toString(buff));
             //Прикрепление подписи к голосу
-            vote.dsaSign = Base64.encodeToString(buff,Base64.DEFAULT).toString();
-            Log.e("Signature", " is created");
+            vote.dsaSign = Base64.encodeToString(buff,Base64.DEFAULT);
+            Log.e("Signature", vote.dsaSign);
             Call<Void> call = service.createVote(vote);
-
-            call.enqueue(new Callback() {
+            call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Response response) {
                     Toast.makeText(ElectionActivity.this,"DONE!", Toast.LENGTH_SHORT).show();

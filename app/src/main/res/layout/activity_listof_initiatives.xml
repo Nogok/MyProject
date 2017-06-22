@@ -4,8 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.electionmachine.ListofInitiativesActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Список голосований"
+        android:textSize="42dp"
+        android:textAlignment="center"
+        android:textColor="#111111"
+        android:id="@+id/jerome"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/statusOfInit"
+        android:textSize="30dp"
+        android:textAlignment="center"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

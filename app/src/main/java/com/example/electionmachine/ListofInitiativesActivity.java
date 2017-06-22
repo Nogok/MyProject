@@ -31,9 +31,11 @@ public class ListofInitiativesActivity extends AppCompatActivity {
     Intent i; // Интент для перехода на новую активность
     String activity; // Название активности, куда будет отправлять интент
     ListView listView; //Список голосов (интерфейс)
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         activity = getIntent().getStringExtra("Activity");
         // Настройка интента
         if (activity.equals("Diagram")) {
@@ -57,6 +59,10 @@ public class ListofInitiativesActivity extends AppCompatActivity {
                 // Получили инициативы
                 initiatives = response.body();
                 Log.e("INITIATIVES", initiatives.size()+"");
+                if (initiatives.size() == 0){
+                    textView = (TextView)findViewById(R.id.statusOfInit);
+                    textView.setText("Нет доступных голосований.");
+                }
                 descriptionsOfInitiatives = new String[initiatives.size()];
                 // Заполнение массива описаний
                 for (int i = 0; i < initiatives.size(); i++){
@@ -92,6 +98,7 @@ public class ListofInitiativesActivity extends AppCompatActivity {
 
             }
         });
+
 
 
 

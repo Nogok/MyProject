@@ -25,7 +25,7 @@ public class InitiativeCreationActivity extends AppCompatActivity {
      * */
     Integer[] amountOfCandidates = {2,3,4,5,6,7,8}; //Массив для выпадающего списка (количество кандидатов, которое выбирает пользователь
     public static final String baseUrl = "https://cryptic-everglades-30040.herokuapp.com";
-    EditText EdDescription; //Эдиттекст для описания.
+    EditText EdDescription, EdName; //Эдиттекст для описания.
     Initiative initiative; // Будущая инициатива
     ElectionService service; // Сервис запросов к серверу
     LinearLayout layoutForCandidates; // Layout для edittext'ов для получения информации о кандидатах.
@@ -37,6 +37,7 @@ public class InitiativeCreationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inition_creation);
         EdDescription = (EditText)findViewById(R.id.InDescription);
+        EdName = (EditText)findViewById(R.id.nameET);
         layoutForCandidates = (LinearLayout) findViewById(R.id.layoutForCandidates);
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, amountOfCandidates);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -54,12 +55,13 @@ public class InitiativeCreationActivity extends AppCompatActivity {
 
     //Отправка инициативы на сервер
     public void sendInitiative(View view) {
+        String name = EdName.getText().toString();
         String description = EdDescription.getText().toString();
         String[] variants = new String[editTexts.size()];
         for (int i = 0; i < editTexts.size(); i++){
             variants[i] = editTexts.get(i).getText().toString();
         }
-        initiative = new Initiative(description,variants);
+        initiative = new Initiative(name,description,variants);
         Call<Void> call = service.addNewInitive(initiative);
         call.enqueue(new Callback<Void>() {
             @Override
