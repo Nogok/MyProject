@@ -2,4 +2,22 @@
     <string name="app_name">Election Machine</string>
     <string name="title_activity_initiative_creation">InitiativeCreationActivity</string>
     <string name="title_activity_list_initiatives">ListInitiativesActivity</string>
+    <string name="settings">Настройки</string>
+    <string name="circle_dia">Круговая\n диаграмма</string>
+    <string name="columnar_dia">Столбчатая\n диаграмма</string>
+    <string name="vote">Проголосовать</string>
+    <string name="vote_creation">Создание голосования</string>
+    <string name="input_name_of_vote">Введите название голосования</string>
+    <string name="input_description_of_vote">Введите описание голосования</string>
+    <string name="amount_of_candidates">Количество кандидатов</string>
+    <string name="send_initiative">Отправить инициативу</string>
+    <string name="list_of_votes">Список голосований</string>
+    <string name="greeting_text">Добро пожаловать, пользователь! Это приложение создано для того, чтобы ты мог быть уверенным в том, что твой голос останется неизменным, и все голоса будут подсчитаны верно. Скорее, нажимай на кнопку ниже и голосуй!</string>
+    <string name="start">Начать</string>
+    <string name="just_vote">Голосуй!</string>
+    <string name="create_vote">Создать голосование</string>
+    <string name="statistics">Статистика</string>
+
+
 </resources>
+

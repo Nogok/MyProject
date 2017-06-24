@@ -6,13 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 
-public interface ElectionService {
+interface ElectionService {
 
     /**
      * Интерфейс-сервис запросов к серверу
@@ -53,8 +51,8 @@ public interface ElectionService {
     Call<List<Vote>> getListOfVotes(@Body Initiative initiative);
 
     // Получение инициативы по описанию TEST ONLY, USELESS
-    @GET("/getinitiativebydescriprion/{description}")
-    Call<Initiative> getInitiativeByDescription(@Path("description") String description);
+//    @GET("/getinitiativebydescriprion/{description}")
+//    Call<Initiative> getInitiativeByDescription(@Path("description") String description);
 
 
 }

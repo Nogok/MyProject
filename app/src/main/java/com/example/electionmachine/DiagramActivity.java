@@ -91,9 +91,9 @@ public class DiagramActivity extends AppCompatActivity {
         }
         // Получение вариантов голосования
 
-        for(int i = 0; i < variants.length; i++){
-            if(!notRepeatedVariants.contains(variants[i]))
-                notRepeatedVariants.add(variants[i]);
+        for(int i:variants){
+            if(!notRepeatedVariants.contains(i))
+                notRepeatedVariants.add(i);
         }
 
         ArrayList<Entry> entries = new ArrayList<>();

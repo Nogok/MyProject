@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E3F2FD">
+    android:background="#E3F2FD"
+    android:orientation="vertical">
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,7 +14,7 @@
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
 
     tools:context="com.example.electionmachine.InitiativeCreationActivity"
     android:weightSum="1"
@@ -23,9 +24,9 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Создание голосования"
+        android:text="@string/vote_creation"
         android:textAlignment="center"
-        android:textSize="40dp"
+        android:textSize="40sp"
         android:textColor="#000000"
         android:layout_marginBottom="20dp"/>
 
@@ -33,7 +34,7 @@
         android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Введите название голосования"
+        android:text="@string/input_name_of_vote"
         android:textSize="24sp"
         android:textColor="#111111"
         android:textAlignment="center" />
@@ -43,12 +44,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:maxLength="30"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Введите описание голосования"
+        android:text="@string/input_description_of_vote"
         android:textSize="24sp"
         android:textColor="#111111"
         android:textAlignment="center"/>
@@ -66,7 +68,7 @@
             android:id="@+id/textView4"
             android:layout_width="196dp"
             android:layout_height="wrap_content"
-            android:text="Количество кандидатов"
+            android:text="@string/amount_of_candidates"
             android:textColor="#000000" />
 
         <Spinner
@@ -88,9 +90,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="sendInitiative"
-        android:text="Отправить инициативу" />
+        android:text="@string/send_initiative" />
 
 </LinearLayout>
 </ScrollView>
-
-</RelativeLayout>
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+</LinearLayout>

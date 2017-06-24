@@ -2,6 +2,7 @@ package com.example.electionmachine;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,7 +36,7 @@ public class InitiativeCreationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inition_creation);
+        setContentView(R.layout.activity_initiative_creation);
         EdDescription = (EditText)findViewById(R.id.InDescription);
         EdName = (EditText)findViewById(R.id.nameET);
         layoutForCandidates = (LinearLayout) findViewById(R.id.layoutForCandidates);
@@ -61,7 +62,8 @@ public class InitiativeCreationActivity extends AppCompatActivity {
         for (int i = 0; i < editTexts.size(); i++){
             variants[i] = editTexts.get(i).getText().toString();
         }
-        initiative = new Initiative(name,description,variants);
+        initiative = new Initiative();
+        initiative = new Initiative(description,name,variants);
         Call<Void> call = service.addNewInitive(initiative);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -98,6 +100,10 @@ public class InitiativeCreationActivity extends AppCompatActivity {
             String s = "Кандидат №"+(i+1);
             textViewForCandidates.setText(s);
             EditText ed = new EditText(this);
+            int maxLength = 16;
+            InputFilter[] FilterArray = new InputFilter[1];
+            FilterArray[0] = new InputFilter.LengthFilter(maxLength);
+            ed.setFilters(FilterArray);
             editTexts.add(ed);
             layoutForCandidates.addView(textViewForCandidates);
             layoutForCandidates.addView(ed);
