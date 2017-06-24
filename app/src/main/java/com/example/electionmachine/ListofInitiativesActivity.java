@@ -66,7 +66,7 @@ public class ListofInitiativesActivity extends AppCompatActivity {
                 descriptionsOfInitiatives = new String[initiatives.size()];
                 // Заполнение массива описаний
                 for (int i = 0; i < initiatives.size(); i++){
-                    descriptionsOfInitiatives[i] = initiatives.get(i).description;
+                    descriptionsOfInitiatives[i] = initiatives.get(i).name;
                 }
                 // Создание адаптера для элемента списка
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(ListofInitiativesActivity.this,android.R.layout.simple_list_item_1, descriptionsOfInitiatives);
@@ -78,7 +78,7 @@ public class ListofInitiativesActivity extends AppCompatActivity {
                             //Получение инициативы для отправки
                             String result = ((TextView) view).getText().toString();
                             for (int i = 0; i < initiatives.size(); i++) {
-                                if (initiatives.get(i).description.equals(result)) {
+                                if (initiatives.get(i).name.equals(result)) {
                                     initiativeForDiagram = initiatives.get(i);
                                     break;
                                 }

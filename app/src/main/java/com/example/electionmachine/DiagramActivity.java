@@ -2,7 +2,7 @@ package com.example.electionmachine;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +31,6 @@ public class DiagramActivity extends AppCompatActivity {
      * Активность создания диаграммы для отображения статистики
      * голосов за определённую инициативу.
      * В данный момент создаётся только круговая диаграмма
-     * TODO добавить возможность создания столбчатой диаграммы
      * */
 
     ElectionService service; // Сервис для запросов к серверу
@@ -75,16 +75,12 @@ public class DiagramActivity extends AppCompatActivity {
             }
         });
 
-
-
-
     }
 
 
     public void createCircle(View view) {
         layoutForDiagram.removeAllViews();
         pieChart = new PieChart(this);
-        Log.e("VOTELIST", voteList.size()+"");
         variants = new int[voteList.size()];
         for(int i = 0; i < voteList.size(); i++){
             variants[i] = voteList.get(i).variant;
@@ -100,22 +96,21 @@ public class DiagramActivity extends AppCompatActivity {
         ArrayList<String> label = new ArrayList<>();
         for (int i = 0; i < notRepeatedVariants.size(); i++){
             float a = 0;
-            for(int j = 0; j < variants.length; j ++){
-                if (notRepeatedVariants.get(i) == variants[j]) a++;
+            for(int j :variants){
+                if (notRepeatedVariants.get(i) == j) a++;
             }
             entries.add(new Entry(a,i));
-            label.add(notRepeatedVariants.get(i)+"");
+           // label.add(notRepeatedVariants.get(i)+"");
         }
-        Log.e("ENTRIES",""+entries.size());
-        Log.e("LABLES",""+label.size());
-        PieDataSet dataset = new PieDataSet(entries, "Votes");
-        PieData data = new PieData(label, dataset);
-        dataset.setColors(ColorTemplate.COLORFUL_COLORS);
+        Collections.addAll(label,initiative.variants);
+        PieDataSet dataSet = new PieDataSet(entries, "Votes");
+        PieData data = new PieData(label, dataSet);
+        dataSet.setValueTextSize(20);
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         pieChart.setLayoutParams(linLayoutParam);
         pieChart.setData(data);
-        Log.e("DATA", "IS SET");
+        pieChart.setDescriptionTextSize(30);
         pieChart.setDescription(initiative.description);
-        Log.e("DESCRIPTION", "IS SET");
         layoutForDiagram.addView(pieChart);
     }
 
@@ -128,31 +123,27 @@ public class DiagramActivity extends AppCompatActivity {
         }
         // Получение вариантов голосования
 
-        for(int i = 0; i < variants.length; i++){
-            if(!notRepeatedVariants.contains(variants[i]))
-                notRepeatedVariants.add(variants[i]);
+        for(int i:variants){
+            if(!notRepeatedVariants.contains(i))
+                notRepeatedVariants.add(i);
         }
 
         ArrayList<BarEntry> entries = new ArrayList<>();
         ArrayList<String> label = new ArrayList<>();
         for (int i = 0; i < notRepeatedVariants.size(); i++){
             float a = 0;
-            for(int j = 0; j < variants.length; j ++){
-                if (notRepeatedVariants.get(i) == variants[j]) a++;
+            for(int j :variants){
+                if (notRepeatedVariants.get(i) == j) a++;
             }
             entries.add(new BarEntry(a,i));
             label.add(notRepeatedVariants.get(i)+"");
         }
-        Log.e("ENTRIES",""+entries.size());
-        Log.e("LABLES",""+label.size());
         BarDataSet dataSet = new BarDataSet(entries,"Votes");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         BarData data = new BarData(label,dataSet);
         barChart.setLayoutParams(linLayoutParam);
         barChart.setData(data);
-        Log.e("DATA", "IS SET");
         barChart.setDescription(initiative.description);
-        Log.e("DESCRIPTION", "IS SET");
         layoutForDiagram.addView(barChart);
 
 
