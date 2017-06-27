@@ -4,8 +4,8 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import java.security.KeyPair;
 import java.security.PrivateKey;
-import java.util.Arrays;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
@@ -37,12 +36,15 @@ public class ElectionActivity extends AppCompatActivity {
     Vote vote; // Голос, с которым идёт работа
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    EditText editTextForPass; // Поле EditText для получения пароля от пользователя
     Gson gson = new Gson();
+    TripleDes tripleDes; // Оболочка для шифрования
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_election);
         textView = (TextView)findViewById(R.id.textView3);
+        editTextForPass = (EditText) findViewById(R.id.password);
         radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         descriptionTextView = (TextView)findViewById(R.id.descriptionOfInit);
         Retrofit retrofit = new Retrofit.Builder()
@@ -51,34 +53,35 @@ public class ElectionActivity extends AppCompatActivity {
                 .build();
         service = retrofit.create(ElectionService.class);
         sharedPreferences = getSharedPreferences("Keys",MODE_PRIVATE);
-
+        // Получение инициативы из предыдущей активности (ListofInitiativesActivity)
         initiative = gson.fromJson(getIntent().getStringExtra("Initiative"),Initiative.class);
-        textView.setText(initiative.name);
+        textView.setText(initiative.name); // Установка названия
+        // Установка вариантов голосования
         for(int i = 0; i < initiative.variants.length; i++) {
             RadioButton r = new RadioButton(this);
             r.setText(initiative.variants[i]);
             radioGroup.addView(r);
         }
+        // Установка описания
         descriptionTextView.setText(initiative.description);
-
-
     }
 
 
     // Голосование. Создание голоса, отправка его на сервер
-    public void Votation(View view) {
+    public void Votation(View view){
         editor = sharedPreferences.edit();
-        if (!(sharedPreferences.contains("Private_key") || sharedPreferences.contains("Public_key"))) {
+        String password = editTextForPass.getText().toString();
+        //Проверка на наличие ключей. Если нет -- создаются
+        if (!(sharedPreferences.contains("Private_Key") || sharedPreferences.contains("Public_Key"))) {
             try {
                 //Создание пары
                 kp = DigitalSign.generateKeyPair((long) 17);
-                editor.putString("Private_key",Base64.encodeToString(kp.getPrivate().getEncoded(),Base64.DEFAULT));
-                editor.putString("Public_key",Base64.encodeToString(kp.getPublic().getEncoded(),Base64.DEFAULT));
+                tripleDes = new TripleDes(password);
+                editor.putString("Private_Key",tripleDes.encrypt(Base64.encodeToString(kp.getPrivate().getEncoded(),Base64.DEFAULT)));
+                editor.putString("Public_Key",tripleDes.encrypt(Base64.encodeToString(kp.getPublic().getEncoded(),Base64.DEFAULT)));
                 editor.apply();
-                Toast.makeText(this, "Pair Created", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                Toast.makeText(this, "Pair is not created!", Toast.LENGTH_SHORT).show();
-                Log.e("KEY_ERROR", e.toString());
+                e.printStackTrace();
             }
         }
 
@@ -94,27 +97,17 @@ public class ElectionActivity extends AppCompatActivity {
         }
         try {
 
-            //Создание подписи
+            //Создание подписи и голоса
+            tripleDes = new TripleDes(password);
             vote = new Vote();
-            vote = new Vote(initiative,VoteFromUser, sharedPreferences.getString("Public_key", null));
-            Log.e("PUBLIC KEY",sharedPreferences.getString("Public_key", null) );
+            vote = new Vote(initiative,VoteFromUser, tripleDes.decrypt(sharedPreferences.getString("Public_Key", null)));
             String s = gson.toJson(vote);
-            Log.e("Vote", s);
-            String sp = sharedPreferences.getString("Private_key", null);
-            //Всё норм
-            Log.e("Private key is ", sp);
-            byte[] priv=Base64.decode(sp,Base64.DEFAULT);
-            //Всё норм
-            Log.e("PrivateKey: ", Arrays.toString(priv));
-            PrivateKey privkey =  DigitalSign.convertPrivateKey(priv);
-            Log.e("PrivateKey: ", "is converted");
-            Log.e("Data to sign: ", Arrays.toString(s.getBytes()));
-            byte[] buff = DigitalSign.signData(s.getBytes(), privkey);
-            //УЖЕ НЕ НОРМАЛЬНО
-            Log.e("Buff", Arrays.toString(buff));
+            String sp = tripleDes.decrypt(sharedPreferences.getString("Private_Key", null));
+            byte[] privateArr = Base64.decode(sp,Base64.DEFAULT);
+            PrivateKey privateKey =  DigitalSign.convertPrivateKey(privateArr);
+            byte[] buff = DigitalSign.signData(s.getBytes(), privateKey);
             //Прикрепление подписи к голосу
             vote.dsaSign = Base64.encodeToString(buff,Base64.DEFAULT);
-            Log.e("Signature", vote.dsaSign);
             Call<Void> call = service.createVote(vote);
             call.enqueue(new Callback<Void>() {
                 @Override
@@ -126,10 +119,8 @@ public class ElectionActivity extends AppCompatActivity {
                 public void onFailure(Throwable t) {
                     Toast.makeText(ElectionActivity.this,"FAIL!", Toast.LENGTH_SHORT).show();
                 }});
-            Log.e("Vote ", "is sent");
         }
         catch (Exception e){
-            Toast.makeText(this, "Exception caught!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

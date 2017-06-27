@@ -7,7 +7,7 @@ class Initiative{
 
 
    String description; //Описание, цель инициативы
-   String name;
+   String name; // Название инициативы
    String[] variants; //Варианты(кандидаты) для голосования
 
    Initiative() {

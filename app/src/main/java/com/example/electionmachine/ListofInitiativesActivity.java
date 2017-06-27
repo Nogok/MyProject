@@ -31,7 +31,7 @@ public class ListofInitiativesActivity extends AppCompatActivity {
     Intent i; // Интент для перехода на новую активность
     String activity; // Название активности, куда будет отправлять интент
     ListView listView; //Список голосов (интерфейс)
-    TextView textView;
+    TextView textView; // Текствью для статуса
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -31,7 +31,7 @@ public class InitiativeCreationActivity extends AppCompatActivity {
     ElectionService service; // Сервис запросов к серверу
     LinearLayout layoutForCandidates; // Layout для edittext'ов для получения информации о кандидатах.
 
-    ArrayList<EditText> editTexts;
+    ArrayList<EditText> editTexts; // Массив EditText'ов для динамического создания разного количества вариантов
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +92,7 @@ public class InitiativeCreationActivity extends AppCompatActivity {
         }
     }
 
+    // Создание нужного количества EditText'ов для вариантов голосования
     public void createViewForCandidates(int amount){
         layoutForCandidates.removeAllViews();
         editTexts = new ArrayList<>();

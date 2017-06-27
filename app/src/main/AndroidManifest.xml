@@ -52,7 +52,6 @@
             android:name=".ListofInitiativesActivity"
             android:label="@string/title_activity_list_initiatives"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--activity android:name=".ListofInitiativesActivity" /-->
     </application>
 
 </manifest>

@@ -45,11 +45,8 @@ public class BlockGenerationService extends Service {
             public void run() {
                 //Получаем цель
                 try {
-                    Log.e("BROADCAST", "TRY1 is started");
                     callGoal = service.getGoal();
-                    Log.e("BROADCAST", "callGoal is done");
                     goal = callGoal.execute().body().string();
-                    Log.e("Goal: ", goal);
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -64,7 +61,6 @@ public class BlockGenerationService extends Service {
                         Log.e("BROADCAST","WE GoT BLOCK");
                         Response<Block> blockResponse = blockCall.execute();
                         votesNotInBlock = call.execute().body();
-                        Log.e("BROADCAST","VoteHash executed");
                         CreatingBlock = blockResponse.body();
 
 

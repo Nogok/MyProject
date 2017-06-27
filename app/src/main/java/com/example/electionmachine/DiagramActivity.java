@@ -110,7 +110,7 @@ public class DiagramActivity extends AppCompatActivity {
         pieChart.setLayoutParams(linLayoutParam);
         pieChart.setData(data);
         pieChart.setDescriptionTextSize(30);
-        pieChart.setDescription(initiative.description);
+        pieChart.setDescription(initiative.name);
         layoutForDiagram.addView(pieChart);
     }
 
@@ -138,12 +138,13 @@ public class DiagramActivity extends AppCompatActivity {
             entries.add(new BarEntry(a,i));
             label.add(notRepeatedVariants.get(i)+"");
         }
+        //Collections.addAll(label,initiative.variants);
         BarDataSet dataSet = new BarDataSet(entries,"Votes");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         BarData data = new BarData(label,dataSet);
         barChart.setLayoutParams(linLayoutParam);
         barChart.setData(data);
-        barChart.setDescription(initiative.description);
+        barChart.setDescription(initiative.name);
         layoutForDiagram.addView(barChart);
 
 

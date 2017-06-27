@@ -17,6 +17,7 @@
     <string name="just_vote">Голосуй!</string>
     <string name="create_vote">Создать голосование</string>
     <string name="statistics">Статистика</string>
+    <string name="password">Введите ваш пароль</string>
 
 
 </resources>

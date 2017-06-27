@@ -20,6 +20,12 @@ public class ConfigActivity extends AppCompatActivity {
     TextView BlockGenerationStatus; //Для отображения статуса генерации блоков (идёт она или нет)
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    String blockGenerationEnabled = "Генерация блоков включена!";
+    String blockGenerationDisabled = "Генерация блоков отключена!";
+    String enableBlockGeneration = "Включить генерацию блоков";
+    String disableBlockGeneration = "Выключить генерацию блоков";
+    String bool = "bool";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +33,9 @@ public class ConfigActivity extends AppCompatActivity {
         buttonForService = (Button)findViewById(R.id.buttonForService);
         BlockGenerationStatus = (TextView)findViewById(R.id.blockGenerate);
         sharedPreferences = getSharedPreferences("boolForGenerating", MODE_PRIVATE);
-        boolean b = sharedPreferences.getBoolean("bool",true);
-        buttonForService.setText(b ? "Выключить генерацию блоков": "Включить генерацию блоков");
-        BlockGenerationStatus.setText(b ? "Генерация блоков включена!":"Генерация блоков отключена!");
+        boolean b = sharedPreferences.getBoolean(bool,true);
+        buttonForService.setText(b ? disableBlockGeneration: enableBlockGeneration);
+        BlockGenerationStatus.setText(b ? blockGenerationEnabled:blockGenerationDisabled);
         editor = sharedPreferences.edit();
     }
 
@@ -39,19 +45,19 @@ public class ConfigActivity extends AppCompatActivity {
         // Получение нынешнего статуса ресивера (включен или выключен)
        String status = BlockGenerationStatus.getText().toString();
         // Если включён -- выключить и изменить текст на кнопке и TextView
-        if (status.equals("Генерация блоков включена!")){
-            BlockGenerationStatus.setText("Генерация блоков отключена!");
-            buttonForService.setText("Включить генерацию блоков");
+        if (status.equals(blockGenerationEnabled)){
+            BlockGenerationStatus.setText(blockGenerationDisabled);
+            buttonForService.setText(enableBlockGeneration);
             stopService(new Intent(getApplicationContext(),BlockGenerationService.class));
-            editor.putBoolean("bool",false);
+            editor.putBoolean(bool,false);
             editor.commit();
         }
         // Если выключен -- включить и изменить текст на кнопке и TextView
-        else if (status.equals("Генерация блоков отключена!")){
-            BlockGenerationStatus.setText("Генерация блоков включена!");
-            buttonForService.setText("Выключить генерацию блоков");
+        else if (status.equals(blockGenerationDisabled)){
+            BlockGenerationStatus.setText(blockGenerationEnabled);
+            buttonForService.setText(disableBlockGeneration);
             startService(new Intent(getApplicationContext(),BlockGenerationService.class));
-            editor.putBoolean("bool",true);
+            editor.putBoolean(bool,true);
             editor.commit();
         }
 

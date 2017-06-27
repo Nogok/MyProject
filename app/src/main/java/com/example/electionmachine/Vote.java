@@ -13,7 +13,7 @@ class Vote {
     private String publicKey; // Публичный ключ для отправки его на сервер
     int variant; // Вариант(Кандидат) из инициативы, за которого проголосовали
 
-    public Vote(){
+    Vote(){
 
     }
     Vote(Initiative initiative,int variant,String publicKey){
